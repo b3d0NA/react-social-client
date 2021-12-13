@@ -7,16 +7,22 @@ export function useAppContext() {
 }
 
 export function AppProvider({ children }) {
-	const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
-	const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+	const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState({
+		open: false,
+		bottom: 0,
+	});
+	const [isRightSidebarOpen, setIsRightSidebarOpen] = useState({
+		open: false,
+		bottom: 0,
+	});
 
-	const isMatch = useMediaQuery("(max-width: 768px)");
+	const isMobile = useMediaQuery("(max-width: 768px)");
 	const value = {
 		isLeftSidebarOpen,
 		setIsLeftSidebarOpen,
 		isRightSidebarOpen,
 		setIsRightSidebarOpen,
-		isMobile: isMatch,
+		isMobile,
 	};
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

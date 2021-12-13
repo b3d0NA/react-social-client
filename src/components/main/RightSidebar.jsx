@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppContext } from "../../contexts/AppContext";
 const RightSidebar = () => {
 	const { isRightSidebarOpen, setIsRightSidebarOpen, isMobile } =
 		useAppContext();
+
+	const rightSidebar = useRef(null);
+	useEffect(() => {
+		if (rightSidebar.current) {
+			rightSidebar.current.style.top = isRightSidebarOpen.bottom + "px";
+		}
+	}, [isRightSidebarOpen]);
 	return (
 		<>
 			{isMobile ? (
 				<div
-					className={`absolute right-0 float-right w-10/12 p-3 transition ease-in-out transform ${
-						!isRightSidebarOpen && "translate-x-full"
+					ref={rightSidebar}
+					className={`fixed -right-2 shadow-2xl border border-green-200 float-right w-10/12 p-3 transition ease-in-out transform ${
+						!isRightSidebarOpen.open && "translate-x-full"
 					} bg-white top-3 rounded-xl`}
 				>
 					<div className="flex justify-between w-full">
 						<button
-							onClick={() => setIsRightSidebarOpen(false)}
+							onClick={() =>
+								setIsRightSidebarOpen({
+									...isRightSidebarOpen,
+									open: false,
+								})
+							}
 							className="px-3 py-1 text-3xl bg-gray-100 rounded-xl"
 						>
 							&times;
@@ -127,7 +140,7 @@ const RightSidebar = () => {
 					</div>
 				</div>
 			) : (
-				<div className="w-3/12">
+				<div className="sticky w-3/12 h-full top-28">
 					<div className="flex justify-between w-full">
 						<h2 className="px-10 font-semibold text-gray-400 text-md">
 							Contacts
@@ -160,7 +173,7 @@ const RightSidebar = () => {
 							<div className="flex items-center space-x-4 contact">
 								<div className="w-16 bg-white h-14 image rounded-xl">
 									<img
-										src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/429ed5e1-cf76-4307-b77a-d0cdf9683533/dec55ir-ec0eb40c-a230-4f06-ae36-94e6d3b80b5e.jpg/v1/fill/w_670,h_1192,q_70,strp/anime_boy_by_tiszardinio_dec55ir-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTQxNCIsInBhdGgiOiJcL2ZcLzQyOWVkNWUxLWNmNzYtNDMwNy1iNzdhLWQwY2RmOTY4MzUzM1wvZGVjNTVpci1lYzBlYjQwYy1hMjMwLTRmMDYtYWUzNi05NGU2ZDNiODBiNWUuanBnIiwid2lkdGgiOiI8PTc5NSJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.4Qdj2GYYQo_nCsbPRAN_Nlw3ECt5FaloY768RKXsik4"
+										src="https://i.pinimg.com/474x/52/fe/87/52fe873be054e7f8345c65281b02c63b.jpg"
 										alt="Mirror Code"
 										className="object-cover object-top w-16 h-14 rounded-2xl"
 									/>

@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppContext } from "../../contexts/AppContext";
 
 const LeftSidebar = () => {
 	const { isLeftSidebarOpen, setIsLeftSidebarOpen, isMobile } =
 		useAppContext();
+	const leftSidebar = useRef(null);
+	useEffect(() => {
+		if (leftSidebar.current) {
+			leftSidebar.current.style.top = isLeftSidebarOpen.bottom + "px";
+		}
+	}, [isLeftSidebarOpen]);
 	return (
 		<>
 			{isMobile ? (
 				<div
-					className={`absolute left-0 z-10 w-10/12 p-2 transition ease-in-out transform ${
-						!isLeftSidebarOpen && "-translate-x-full"
+					ref={leftSidebar}
+					className={`fixed -left-2 shadow-2xl border border-green-200 z-10 w-10/12 p-2 transition ease-in-out transform ${
+						!isLeftSidebarOpen.open && "-translate-x-full"
 					} bg-white top-3 rounded-xl`}
 				>
 					<button
 						className="inline-block float-right px-3 py-1 text-3xl bg-gray-100 rounded-xl"
-						onClick={() => setIsLeftSidebarOpen(false)}
+						onClick={() =>
+							setIsLeftSidebarOpen({
+								...isLeftSidebarOpen,
+								open: false,
+							})
+						}
 					>
 						&times;
 					</button>
@@ -118,7 +130,7 @@ const LeftSidebar = () => {
 					</div>
 				</div>
 			) : (
-				<div className="w-3/12">
+				<div className="sticky w-3/12 h-full top-28">
 					<div className="flex items-center justify-center p-5 space-x-5 bg-white user_summary rounded-2xl">
 						<div className="left_summary">
 							<img

@@ -9,22 +9,42 @@ const Header = () => {
 	const [makeStickyHeader, setMakeStickyHeader] = useState(false);
 	const stickyHeader = useRef();
 
+	const handleSidebar = (e) => {
+		const coordsOfEvent = e.target.getBoundingClientRect();
+		const bottom = coordsOfEvent.bottom + 30;
+		if (e.target.tagName === "path") {
+			e.target.parentNode.classList.contains("left_sidebar_open") &&
+				setIsLeftSidebarOpen({ open: true, bottom });
+			e.target.parentNode.classList.contains("right_sidebar_open") &&
+				setIsRightSidebarOpen({ open: true, bottom });
+		} else if (
+			e.target.tagName === "button" ||
+			e.target.tagName === "svg"
+		) {
+			e.target.classList.contains("left_sidebar_open") &&
+				setIsLeftSidebarOpen({ open: true, bottom });
+			e.target.classList.contains("right_sidebar_open") &&
+				setIsRightSidebarOpen({ open: true, bottom });
+		}
+	};
+
 	useEffect(() => {
 		window.onscroll = () => {
-			const { offsetTop } = stickyHeader.current;
-			offsetTop - 10 <= window.scrollY
-				? setMakeStickyHeader(true)
-				: setMakeStickyHeader(false);
+			if (125 <= window.scrollY) {
+				setMakeStickyHeader(true);
+			} else {
+				setMakeStickyHeader(false);
+			}
 		};
-	}, []);
+	}, [isMobile, makeStickyHeader]);
 	return (
 		<div
-			className={`bg-white flex flex-col h-20 items-center justify-between md:flex-row md:space-y-0" px-8 space-y-4 sticky top-0 z-10`}
+			className={`bg-white flex flex-col md:h-20 items-center justify-between md:flex-row md:space-y-0" px-8 space-y-4 md:sticky top-0 z-10`}
 		>
 			<div className="logo_section pt-1.5 row-span-2">
 				<Logo className="w-20 h-12"></Logo>
 			</div>
-			<div className="relative w-11/12 col-span-3 md:col-span-1 md:w-2/6 ml-14 search_section">
+			<div className="relative col-span-3 md:col-span-1 md:w-2/6 md:ml-14 search_section">
 				<svg
 					viewBox="0 0 20 20"
 					fill="currentColor"
@@ -45,18 +65,18 @@ const Header = () => {
 			</div>
 			<div
 				ref={stickyHeader}
-				className={`-top-5 bg-white col-span-4 ${
+				className={`-top-5 ${
 					isMobile &&
 					makeStickyHeader &&
-					"fixed justify-around p-3 w-full z-10"
-				} flex  md:flex-row  profile_related_section space-x-10 items-center`}
+					"fixed justify-center p-3 w-full z-10 border-b border-green-300 shadow-xl"
+				} bg-white col-span-4  flex  md:flex-row  profile_related_section space-x-10 items-center`}
 			>
 				<button
 					className="left_sidebar_open md:hidden"
-					onClick={() => setIsLeftSidebarOpen(true)}
+					onClick={handleSidebar}
 				>
 					<svg
-						className="w-6 h-6 text-gray-500"
+						className="w-6 h-6 text-gray-500 left_sidebar_open"
 						fill="none"
 						viewBox="0 0 24 24"
 						stroke="currentColor"
@@ -70,19 +90,19 @@ const Header = () => {
 					</svg>
 				</button>
 				<Notification />
-				<div className="h-12 -mt-4 bg-white w-14 image rounded-xl">
+				<div className="w-10 h-10 bg-white md:h-12 md:-mt-4 md:w-14 image rounded-xl">
 					<img
 						src="https://iphoneswallpapers.com/wp-content/uploads/2021/06/Anime-Boy-Masked.jpg"
 						alt="Muhammad Prottoy"
-						className="object-cover object-top w-16 h-14 rounded-2xl"
+						className="object-cover object-top h-10 w-14 md:w-16 md:h-14 rounded-2xl"
 					/>
 				</div>
 				<button
-					className="left_sidebar_open md:hidden"
-					onClick={() => setIsRightSidebarOpen(true)}
+					className="right_sidebar_open md:hidden"
+					onClick={handleSidebar}
 				>
 					<svg
-						className="w-6 h-6 text-gray-500"
+						className="w-6 h-6 text-gray-500 right_sidebar_open"
 						fill="none"
 						viewBox="0 0 24 24"
 						stroke="currentColor"

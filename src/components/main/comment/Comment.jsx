@@ -17,14 +17,14 @@ const Comment = () => {
 	}, [isCommentOptionOpen]);
 	return (
 		<div className="flex px-3 py-3 space-x-3 md:space-x-4 comment bg-gray-50 rounded-xl">
-			<div className="w-5/12">
+			<div className="w-2/12 md:w-auto">
 				<img
 					src="https://muhammadprottoy.netlify.app/images/profile1.webp"
 					alt="Muhammad Prottoy"
 					className="object-cover h-10 w-14 md:w-12 md:h-12 rounded-2xl"
 				/>
 			</div>
-			<div className="comment">
+			<div className="w-10/12 comment">
 				<h2 className="text-xs font-light text-gray-500">@b3d0na</h2>
 				<p className="text-sm text-gray-700 md:text-base">
 					Kier baler pic disos eidi beda ... Vala kono pic tik thakle
