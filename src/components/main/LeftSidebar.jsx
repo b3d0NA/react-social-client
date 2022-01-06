@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useAppContext } from "../../contexts/AppContext";
+import { useAuthContext } from "../../contexts/AuthContext";
+import Skeleton from "../Skeleton";
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ loading }) => {
+	const { currentUser } = useAuthContext();
 	const { isLeftSidebarOpen, setIsLeftSidebarOpen, isMobile } =
 		useAppContext();
 	const leftSidebar = useRef(null);
@@ -133,19 +136,31 @@ const LeftSidebar = () => {
 				<div className="sticky w-3/12 h-full top-28">
 					<div className="flex items-center justify-center p-5 space-x-5 bg-white user_summary rounded-2xl">
 						<div className="left_summary">
-							<img
-								src="https://iphoneswallpapers.com/wp-content/uploads/2021/06/Anime-Boy-Masked.jpg"
-								alt="Muhammad Prottoy"
-								className="object-cover object-top w-16 h-16 rounded-2xl"
-							/>
+							{loading ? (
+								<Skeleton w="w-16" h="h-16" />
+							) : (
+								<img
+									src={currentUser.image}
+									alt={currentUser.name + "s Profile image"}
+									className="object-cover object-top w-16 h-16 rounded-2xl"
+								/>
+							)}
 						</div>
 						<div className="right_summary text-md">
-							<h2 className="font-bold text-gray-700">
-								Muhammad Prottoy
-							</h2>
-							<p className="text-sm font-light text-gray-500">
-								@b3d0na
-							</p>
+							{loading ? (
+								<Skeleton w="w-48" />
+							) : (
+								<h2 className="font-bold text-gray-700">
+									{currentUser.name}
+								</h2>
+							)}
+							{loading ? (
+								<Skeleton w="w-28" h="h-4" />
+							) : (
+								<p className="text-sm font-light text-gray-500">
+									@{currentUser.username}
+								</p>
+							)}
 						</div>
 					</div>
 					<div className="p-8 my-8 bg-white navigation rounded-xl">
