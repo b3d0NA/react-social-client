@@ -18,7 +18,23 @@ function App() {
 		key: process.env.REACT_APP_MIX_PUSHER_APP_KEY,
 		cluster: process.env.REACT_APP_MIX_PUSHER_APP_CLUSTER,
 		forceTLS: true,
-		authEndpoint: process.env.BASE_URL + "/broadcasting/auth",
+		authorizer: (channel, options) => {
+			return {
+				authorize: (socketId, callback) => {
+					sunnah
+						.post("broadcasting/auth", {
+							socket_id: socketId,
+							channel_name: channel.name,
+						})
+						.then((response) => {
+							callback(false, response.data);
+						})
+						.catch((error) => {
+							callback(true, error);
+						});
+				},
+			};
+		},
 	});
 	return (
 		<AppProvider>

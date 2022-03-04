@@ -9,7 +9,7 @@ const useInfiniteNotifications = (cursor, isNotificationOpen) => {
 	const [hasMore, setHasMore] = useState(true);
 
 	useEffect(() => {
-		async function fetchPosts() {
+		async function fetchNotifications() {
 			setIsLoading(true);
 			sunnah
 				.get(`notifications`, { params: { cursor } })
@@ -38,7 +38,7 @@ const useInfiniteNotifications = (cursor, isNotificationOpen) => {
 		}
 		if (isNotificationOpen) {
 			setNotifications([]);
-			fetchPosts();
+			fetchNotifications();
 		}
 	}, [cursor, isNotificationOpen]);
 	return { notifications, isLoading, error, hasMore, data, setNotifications };

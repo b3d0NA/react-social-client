@@ -53,7 +53,7 @@ const LeftSidebar = ({ loading }) => {
 					<div className="p-3 my-3 bg-white navigation rounded-xl">
 						<ul>
 							<li className="pb-2">
-								<button className="flex w-full px-4 py-4 space-x-5 hover:bg-gray-50 rounded-xl">
+								<button className="flex w-full px-2 py-2 space-x-5 hover:bg-gray-50 rounded-xl">
 									<svg
 										className="w-6 h-6 text-gray-400"
 										fill="none"
@@ -163,7 +163,7 @@ const LeftSidebar = ({ loading }) => {
 							)}
 						</div>
 					</div>
-					<div className="p-8 my-8 bg-white navigation rounded-xl">
+					<div className="p-3 my-8 bg-white navigation rounded-xl">
 						<ul>
 							<li className="pb-2">
 								<button className="flex w-full px-4 py-4 space-x-5 hover:bg-gray-50 rounded-xl">

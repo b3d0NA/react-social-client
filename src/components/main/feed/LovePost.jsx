@@ -10,6 +10,7 @@ const LovePost = ({ post }) => {
 		setIsLiked(!liked);
 		if (isLiked) {
 			setLikesCount((prev) => parseInt(prev - 1));
+			setIsLiked(false);
 			sunnah
 				.delete("likes/destroy", { data: { post: id } })
 				.then(() => {
@@ -20,6 +21,7 @@ const LovePost = ({ post }) => {
 				});
 		} else {
 			setLikesCount((prev) => parseInt(prev + 1));
+			setIsLiked(true);
 			sunnah
 				.post("likes", { post: id })
 				.then(() => {

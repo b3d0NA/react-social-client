@@ -1,16 +1,19 @@
 import React, { useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect } from "react/cjs/react.development";
+import { useAuthContext } from "../../../contexts/AuthContext";
 import sunnah from "../../../helpers/axios";
 import useInfiniteNotifications from "../../../hooks/useInfiniteNotifications";
 import NotifcationSkeleton from "./NotifcationSkeleton";
 import Notification from "./Notification";
 const Notifications = ({ loading }) => {
+	const NOTFICATION_THRESHOLD = 99;
+	const { currentUser } = useAuthContext();
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 	const [cursor, setCursor] = useState(null);
 
 	const [notificationCount, setNotificationCount] = useState(null);
-	const [isNotiLoading, setIsNotiLoading] = useState(true);
+	// const [isNotiLoading, setIsNotiLoading] = useState(true);
 	const { notifications, isLoading, error, hasMore, data } =
 		useInfiniteNotifications(cursor, isNotificationOpen);
 	const notificationRef = useRef();
@@ -29,20 +32,37 @@ const Notifications = ({ loading }) => {
 	}, [isNotificationOpen]);
 
 	useEffect(() => {
-		sunnah.get("noti");
+		if (!loading) {
+			window.Echo.private(`App.User.${currentUser.id}`).notification(
+				(data) => {
+					console.log(data);
+				}
+			);
+		}
+	}, [currentUser, loading]);
+
+	useEffect(() => {
+		sunnah.get("notificationsCount").then(({ data }) => {
+			if (data.hasOwnProperty("status") && data.status === 200) {
+				const { notificationsCount } = data;
+				setNotificationCount(notificationsCount);
+			}
+		});
 	}, []);
 	return (
 		<div className="relative mt-3 mr-14 notific">
 			{loading ? (
 				<span className="absolute px-2 py-1 text-xs text-red-500 bg-red-500 rounded-full cursor-pointer animate-pulse -top-2 left-3">
-					9
+					{NOTFICATION_THRESHOLD}
 				</span>
 			) : (
 				<span
 					className="absolute px-2 py-1 text-xs text-white bg-red-500 rounded-full cursor-pointer -top-2 left-3"
 					onClick={() => setIsNotificationOpen(!isNotificationOpen)}
 				>
-					{notificationCount}
+					{notificationCount >= NOTFICATION_THRESHOLD
+						? NOTFICATION_THRESHOLD + "+"
+						: notificationCount}
 				</span>
 			)}
 
@@ -70,7 +90,7 @@ const Notifications = ({ loading }) => {
 					!isNotificationOpen
 						? "-translate-y-2/4 translate-x-2/4 opacity-0 scale-0"
 						: "-translate-x-1/2 md:translate-x-0"
-				} overflow-auto bg-white border border-green-200 shadow-xl notification_details rounded-xl w-80 max-h-notific scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 notifications`}
+				} overflow-auto bg-white border border-green-200 shadow-xl notification_details rounded-xl w-80 h-[380px] scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 notifications`}
 			>
 				<ul>
 					{isLoading || error || notifications.length === 0 ? (
