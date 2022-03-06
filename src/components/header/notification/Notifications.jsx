@@ -90,7 +90,7 @@ const Notifications = ({ loading }) => {
 					!isNotificationOpen
 						? "-translate-y-2/4 translate-x-2/4 opacity-0 scale-0"
 						: "-translate-x-1/2 md:translate-x-0"
-				} overflow-auto bg-white border border-green-200 shadow-xl notification_details rounded-xl w-80 h-[380px] scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 notifications`}
+				} overflow-auto bg-white border border-green-200 shadow-xl notification_details rounded-xl w-80 h-[480px] scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 notifications`}
 			>
 				<ul>
 					{isLoading || error || notifications.length === 0 ? (
