@@ -1,12 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
 import sunnah from "../../../helpers/axios";
 import formatNumber from "../../../helpers/formatNumber";
-const LovePost = ({ post }) => {
+const LovePost = ({ post, isGuest }) => {
 	const { id, likes_count, liked } = post;
+	const navigate = useNavigate();
 	const [isLiked, setIsLiked] = useState(liked);
 	const [likesCount, setLikesCount] = useState(parseInt(likes_count));
 	function handleLike() {
+		if (isGuest) {
+			console.log("Way to navigate");
+			return navigate("/login");
+		}
 		setIsLiked(!liked);
 		if (isLiked) {
 			setLikesCount((prev) => parseInt(prev - 1));

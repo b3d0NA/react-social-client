@@ -3,18 +3,25 @@ import { useState } from "react/cjs/react.development";
 import useInfiniteComments from "../../../hooks/useInfiniteComments";
 import Comments from "./Comments";
 import CreateComment from "./CreateComment";
-const CommentContainer = ({ isCommentClicked, setCommentsCount, post }) => {
+const CommentContainer = ({
+	isCommentClicked,
+	setCommentsCount,
+	post,
+	isGuest,
+}) => {
 	const [cursor, setCursor] = useState(null);
 	const { comments, isLoading, error, hasMore, data, setComments } =
 		useInfiniteComments(post.id, cursor);
 	return (
 		<div>
 			<>
-				<CreateComment
-					setCommentsCount={setCommentsCount}
-					post={post}
-					setComments={setComments}
-				/>
+				{!isGuest && (
+					<CreateComment
+						setCommentsCount={setCommentsCount}
+						post={post}
+						setComments={setComments}
+					/>
+				)}
 				<Comments
 					setComments={setComments}
 					comments={comments}

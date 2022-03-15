@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 import { ReactComponent as Logo } from "../../assets/images/sunnah_logo.svg";
 import { useAppContext } from "../../contexts/AppContext";
@@ -59,10 +59,12 @@ const Header = ({ userLoading: loading }) => {
 	}, [isMobile, makeStickyHeader]);
 	return (
 		<div
-			className={`bg-white flex flex-col md:h-20 items-center justify-between md:flex-row md:space-y-0" px-8 space-y-4 md:sticky top-0 z-10`}
+			className={`bg-white flex flex-col md:h-20 items-center justify-between md:flex-row md:space-y-0" px-8 space-y-4 md:sticky top-0 z-40`}
 		>
 			<div className="logo_section pt-1.5 row-span-2">
-				<Logo className="w-20 h-12"></Logo>
+				<Link to={`/`}>
+					<Logo className="w-20 h-12"></Logo>
+				</Link>
 			</div>
 			<div className="relative col-span-3 md:col-span-1 md:w-2/6 md:ml-14 search_section">
 				<svg

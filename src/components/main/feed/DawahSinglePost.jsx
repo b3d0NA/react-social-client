@@ -4,7 +4,7 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 import CommentContainer from "../comment";
 import FeedImage from "./FeedImage";
 import LovePost from "./LovePost";
-const DawahSinglePost = ({ post, postElement }) => {
+const DawahSinglePost = ({ post, postElement, isGuest, comment }) => {
 	const {
 		user_id,
 		text,
@@ -57,6 +57,10 @@ const DawahSinglePost = ({ post, postElement }) => {
 		setIsPostOptionOpen(false);
 	}
 
+	useEffect(() => {
+		console.log(comment);
+		comment && setIsCommentClicked(true);
+	}, [comment]);
 	return (
 		<div
 			ref={postElement}
@@ -194,7 +198,7 @@ const DawahSinglePost = ({ post, postElement }) => {
 					/>
 				)}
 				<div className="flex justify-center space-x-4 post_actions">
-					<LovePost post={post} />
+					<LovePost post={post} isGuest={isGuest} />
 					<div className="comments">
 						<button
 							className="flex p-3 space-x-4 text-center text-gray-500 border border-gray-200 rounded-xl justif-center hover:bg-green-400 hover:text-white"
@@ -224,6 +228,7 @@ const DawahSinglePost = ({ post, postElement }) => {
 				{isCommentClicked && (
 					<CommentContainer
 						post={post}
+						isGuest={isGuest}
 						setCommentsCount={setCommentsCount}
 					/>
 				)}

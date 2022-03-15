@@ -115,7 +115,7 @@ const CreatePost = ({ loading }) => {
 						cols="30"
 						className="w-full p-5 text-gray-700 transition duration-500 ease-linear focus:outline-none focus:bg-gray-100 rounded-xl"
 						placeholder={`What's new found, ${
-							!loading ? currentUser.username : ""
+							!loading ? currentUser.name : ""
 						}?`}
 						resize="false"
 						onChange={(e) => setText(e.target.value)}

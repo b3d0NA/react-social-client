@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import sunnah from "../helpers/axios";
 
-const useInfiniteNotifications = (cursor, isNotificationOpen) => {
+const useInfiniteNotifications = ({
+	cursor,
+	isNotificationOpen,
+	notificationRef,
+	setNotificationCount,
+}) => {
 	const [notifications, setNotifications] = useState([]);
 	const [data, setData] = useState();
 	const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +15,9 @@ const useInfiniteNotifications = (cursor, isNotificationOpen) => {
 
 	useEffect(() => {
 		async function fetchNotifications() {
+			const currentScroll = notificationRef.scrollTop;
 			setIsLoading(true);
+			setNotificationCount(0);
 			sunnah
 				.get(`notifications`, { params: { cursor } })
 				.then((response) => {
@@ -24,11 +31,11 @@ const useInfiniteNotifications = (cursor, isNotificationOpen) => {
 							? setHasMore(true)
 							: setHasMore(false);
 						data.cursor ? setHasMore(true) : setHasMore(false);
+						notificationRef.scrollTop = currentScroll;
 					} else {
 						console.log(
 							"Something error happend at notifications response"
 						);
-						// setcomments([]);
 					}
 				})
 				.catch((err) => {
@@ -37,10 +44,12 @@ const useInfiniteNotifications = (cursor, isNotificationOpen) => {
 				});
 		}
 		if (isNotificationOpen) {
-			setNotifications([]);
+			if (!cursor) {
+				setNotifications([]);
+			}
 			fetchNotifications();
 		}
-	}, [cursor, isNotificationOpen]);
+	}, [cursor, isNotificationOpen, notificationRef]);
 	return { notifications, isLoading, error, hasMore, data, setNotifications };
 };
 

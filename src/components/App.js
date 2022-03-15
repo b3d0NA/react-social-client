@@ -49,14 +49,7 @@ function App() {
 								</PrivateRoute>
 							}
 						/>
-						<Route
-							path="/posts/{id}"
-							element={
-								<PrivateRoute>
-									<Post />
-								</PrivateRoute>
-							}
-						/>
+						<Route path="/posts/:id" element={<Post />} />
 						<Route
 							path="/register"
 							element={

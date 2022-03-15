@@ -17,10 +17,10 @@
 	background: rgba(0, 0, 0, 0);
 }
 .notifications::-webkit-scrollbar-thumb {
-	background: #a1a1a1;
+	background: #c5c5c5;
 	margin: 5px;
 	border-radius: 20px;
 }
 .notifications::-webkit-scrollbar-thumb:hover {
-	background: rgb(104, 104, 104);
+	background: rgb(197, 197, 197);
 }
