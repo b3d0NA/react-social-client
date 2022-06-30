@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react/cjs/react.development";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import sunnah from "../../../helpers/axios";
@@ -11,20 +10,22 @@ const CreateComment = ({ setCommentsCount, post, setComments }) => {
 	const [error, setError] = useState("");
 
 	function handleCommentSubmit() {
-		setLoading(true);
-		sunnah
-			.post(`posts/${post.id}/comments`, { comment })
-			.then(({ data }) => {
-				const { comment } = data;
-				setComment("");
-				setLoading(false);
-				setCommentsCount((prev) => prev + 1);
-				setComments((prevComments) => [comment, ...prevComments]);
-			})
-			.catch((err) => {
-				setLoading(false);
-				setError("Somethign wrong happend. Try again later");
-			});
+		if (comment) {
+			setLoading(true);
+			sunnah
+				.post(`posts/${post.id}/comments`, { comment })
+				.then(({ data }) => {
+					const { comment } = data;
+					setComment("");
+					setLoading(false);
+					setCommentsCount((prev) => prev + 1);
+					setComments((prevComments) => [comment, ...prevComments]);
+				})
+				.catch((err) => {
+					setLoading(false);
+					setError("Somethign wrong happend. Try again later");
+				});
+		}
 	}
 	return (
 		<div className="flex pt-5 space-x-4 border-t border-gray-100 create_comment">

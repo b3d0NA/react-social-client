@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/sunnah_logo.svg";
-import { useAuthContext } from "../../contexts/AuthContext";
-import sunnah from "../../helpers/axios";
-import Error from "../messages/Error";
+import Logo from "../assets/images/sunnah_logo.svg";
+import Error from "../components/messages/Error";
+import { useAuthContext } from "../contexts/AuthContext";
+import sunnah from "../helpers/axios";
 
 const Register = () => {
 	const { setUser } = useAuthContext();

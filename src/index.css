@@ -2,6 +2,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+	font-family: "Gruffly";
+	src: url("fonts/GrufflyRegular.ttf");
+}
+
 .infinite-scroll-component {
 	overflow: initial !important;
 }
@@ -10,17 +16,17 @@
 	scroll-margin-top: 100px;
 }
 
-.notifications::-webkit-scrollbar {
+.thin-scroll::-webkit-scrollbar {
 	width: 5px;
 }
-.notifications::-webkit-scrollbar-track {
+.thin-scroll::-webkit-scrollbar-track {
 	background: rgba(0, 0, 0, 0);
 }
-.notifications::-webkit-scrollbar-thumb {
+.thin-scroll::-webkit-scrollbar-thumb {
 	background: #c5c5c5;
 	margin: 5px;
 	border-radius: 20px;
 }
-.notifications::-webkit-scrollbar-thumb:hover {
+.thin-scroll::-webkit-scrollbar-thumb:hover {
 	background: rgb(197, 197, 197);
 }

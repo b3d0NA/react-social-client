@@ -1,13 +1,17 @@
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _ from "lodash";
-import React, { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useInfinitePosts from "../../../hooks/useInfinitePosts";
+import DeleteModal from "../DeleteModal";
+import EditModal from "../EditModal";
 import DawahSinglePost from "./DawahSinglePost";
 import PostSkeleton from "./PostSkeleton";
-const DawahFeed = () => {
+const DawahFeed = ({ muslim = null, singlePost = null }) => {
 	const [cursor, setCursor] = useState(null);
 	const { posts, isLoading, error, hasMore, data, setPosts } =
-		useInfinitePosts(cursor);
+		useInfinitePosts(cursor, muslim && muslim.id);
 	const postElement = useRef([]);
 	postElement.current = posts.map(
 		(e, i) => postElement.current[i] ?? createRef()
@@ -72,15 +76,24 @@ const DawahFeed = () => {
 			document.removeEventListener("closePostDeleteModal", deletePost);
 		};
 	}, [setPosts]);
+
 	return (
 		<>
-			{isLoading || error || posts.length === 0 ? (
+			{isLoading || error ? (
 				<>
 					<PostSkeleton />
 					<PostSkeleton />
 					<PostSkeleton />
 				</>
-			) : (
+			) : posts.length === 0 ? (
+				<h2 className="flex items-center justify-center pt-10 text-5xl font-semibold text-center text-gray-500 gap-x-3">
+					<FontAwesomeIcon
+						icon={faCircleInfo}
+						className="text-6xl text-cyan-500"
+					/>
+					No posts!
+				</h2>
+			) : !singlePost ? (
 				<InfiniteScroll
 					dataLength={posts.length}
 					hasMore={hasMore}
@@ -103,7 +116,20 @@ const DawahFeed = () => {
 						);
 					})}
 				</InfiniteScroll>
+			) : (
+				<DawahSinglePost
+					post={singlePost.post}
+					comment={singlePost.state && singlePost.state.comment}
+					{...(singlePost.state &&
+						(singlePost.state.hasOwnProperty("comment")
+							? {
+									comment: singlePost.state.comment,
+							  }
+							: {}))}
+				/>
 			)}
+			<EditModal />
+			<DeleteModal />
 		</>
 	);
 };

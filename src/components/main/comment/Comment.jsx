@@ -1,8 +1,10 @@
 import _ from "lodash";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../../../contexts/AuthContext";
-const Comment = ({ singleComment }) => {
+import Badges from "../Badges";
+const Comment = ({ singleComment, highlightedComment = null }) => {
 	const {
+		id,
 		user_id,
 		commented_user,
 		commented_username,
@@ -62,9 +64,18 @@ const Comment = ({ singleComment }) => {
 				/>
 			</div>
 			<div className="w-10/12 px-4 py-4 comment bg-gray-50 rounded-xl">
-				<h2 className="mb-3 text-xs font-semibold text-gray-500">
-					{commented_username}
-				</h2>
+				<div className="flex items-center space-x-3">
+					<h2 className="mb-3 text-xs font-semibold text-gray-500">
+						{commented_username}
+					</h2>
+					{highlightedComment &&
+						highlightedComment.comment_id === id && (
+							<Badges
+								text="Highlighted Comment"
+								className="-mt-2"
+							/>
+						)}
+				</div>
 				<p className="text-sm text-gray-700 md:text-base">{comment}</p>
 				<span className="text-xs text-gray-400">{commented_at}</span>
 

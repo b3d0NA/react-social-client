@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAppContext } from "../../contexts/AppContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 import Skeleton from "../Skeleton";
@@ -35,19 +35,31 @@ const LeftSidebar = ({ loading }) => {
 					</button>
 					<div className="flex items-center justify-center p-3 space-x-5 bg-white user_summary rounded-2xl">
 						<div className="left_summary">
-							<img
-								src="https://iphoneswallpapers.com/wp-content/uploads/2021/06/Anime-Boy-Masked.jpg"
-								alt="Muhammad Prottoy"
-								className="object-cover object-top w-16 h-16 rounded-2xl"
-							/>
+							{loading ? (
+								<Skeleton w="w-16" h="h-16" />
+							) : (
+								<img
+									src={currentUser.image}
+									alt={currentUser.name + "s Profile image"}
+									className="object-cover object-top w-16 h-16 rounded-2xl"
+								/>
+							)}
 						</div>
 						<div className="right_summary text-md">
-							<h2 className="font-bold text-gray-700">
-								Muhammad Prottoy
-							</h2>
-							<p className="text-sm font-light text-gray-500">
-								@b3d0na
-							</p>
+							{loading ? (
+								<Skeleton w="w-48" />
+							) : (
+								<h2 className="font-bold text-gray-700">
+									{currentUser.name}
+								</h2>
+							)}
+							{loading ? (
+								<Skeleton w="w-28" h="h-4" />
+							) : (
+								<p className="text-sm font-light text-gray-500">
+									@{currentUser.username}
+								</p>
+							)}
 						</div>
 					</div>
 					<div className="p-3 my-3 bg-white navigation rounded-xl">
@@ -220,25 +232,6 @@ const LeftSidebar = ({ loading }) => {
 									</svg>
 									<span className="font-semibold text-gray-600 hover:text-green-300">
 										Dawah Feed
-									</span>
-								</button>
-							</li>
-							<li className="pb-2">
-								<button className="flex w-full px-4 py-4 space-x-5 hover:bg-gray-50 rounded-xl">
-									<svg
-										aria-hidden="true"
-										focusable="false"
-										className="w-6 h-6 text-gray-400"
-										role="img"
-										viewBox="0 0 448 512"
-									>
-										<path
-											fill="currentColor"
-											d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"
-										></path>
-									</svg>
-									<span className="font-semibold text-gray-600 hover:text-green-300">
-										Profile
 									</span>
 								</button>
 							</li>

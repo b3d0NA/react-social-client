@@ -14,7 +14,6 @@ const useInfiniteComments = (id, cursor) => {
 			sunnah
 				.get(`posts/${id}/comments`, { params: { cursor } })
 				.then((response) => {
-					setIsLoading(false);
 					const { data } = response;
 					if (data.hasOwnProperty("status") && data.status === 200) {
 						const { comments } = data;
@@ -28,6 +27,7 @@ const useInfiniteComments = (id, cursor) => {
 						console.log("Something error happend");
 						// setcomments([]);
 					}
+					setIsLoading(false);
 				})
 				.catch((err) => {
 					setIsLoading(false);

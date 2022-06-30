@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react/cjs/react.development";
 import useInfiniteComments from "../../../hooks/useInfiniteComments";
 import Comments from "./Comments";
@@ -8,6 +7,7 @@ const CommentContainer = ({
 	setCommentsCount,
 	post,
 	isGuest,
+	comment = null,
 }) => {
 	const [cursor, setCursor] = useState(null);
 	const { comments, isLoading, error, hasMore, data, setComments } =
@@ -27,6 +27,7 @@ const CommentContainer = ({
 					comments={comments}
 					isLoading={isLoading}
 					error={error}
+					highlightedComment={comment}
 				/>
 				{hasMore && (
 					<button

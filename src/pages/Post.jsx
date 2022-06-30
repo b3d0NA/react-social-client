@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import _ from "lodash";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import sunnah from "../../helpers/axios";
-import useAuthUser from "../../hooks/useAuthUser";
-import Header from "../header";
-import GuestHeader from "../header/GuestHeader";
-import DawahSinglePost from "../main/feed/DawahSinglePost";
-import PostSkeleton from "../main/feed/PostSkeleton";
-import LeftSidebar from "../main/LeftSidebar";
-import RightSidebar from "../main/RightSidebar";
-
+import Header from "../components/header";
+import GuestHeader from "../components/header/GuestHeader";
+import DawahFeed from "../components/main/feed/DawahFeed";
+import PostSkeleton from "../components/main/feed/PostSkeleton";
+import LeftSidebar from "../components/main/LeftSidebar";
+import RightSidebar from "../components/main/RightSidebar";
+import sunnah from "../helpers/axios";
+import useAuthUser from "../hooks/useAuthUser";
 const Post = () => {
 	const { currentUser, loading } = useAuthUser();
 	const [post, setPost] = useState();
@@ -29,7 +29,7 @@ const Post = () => {
 			});
 	}, [postId, state]);
 
-	return currentUser ? (
+	return !_.isEmpty(currentUser) ? (
 		<>
 			<Header userLoading={loading} />
 			<div className="relative justify-center p-3 mx-auto md:container md:p-8 md:flex md:space-x-11">
@@ -38,7 +38,7 @@ const Post = () => {
 					{postLoading ? (
 						<PostSkeleton />
 					) : (
-						<DawahSinglePost post={post} />
+						<DawahFeed singlePost={{ post, state }} />
 					)}
 				</div>
 				<RightSidebar />
@@ -52,16 +52,7 @@ const Post = () => {
 					{postLoading ? (
 						<PostSkeleton />
 					) : (
-						<DawahSinglePost
-							post={post}
-							isGuest
-							comment={state.comment}
-							{...(state.hasOwnProperty("comment")
-								? {
-										comment: state.comment,
-								  }
-								: {})}
-						/>
+						<DawahFeed singlePost={{ post, state }} />
 					)}
 				</div>
 			</div>

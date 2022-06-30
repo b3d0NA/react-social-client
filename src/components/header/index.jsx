@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 import { ReactComponent as Logo } from "../../assets/images/sunnah_logo.svg";
@@ -13,7 +13,6 @@ const Header = ({ userLoading: loading }) => {
 		useAppContext();
 	const [makeStickyHeader, setMakeStickyHeader] = useState(false);
 	const stickyHeader = useRef();
-
 	const handleSidebar = (e) => {
 		const coordsOfEvent = e.target.getBoundingClientRect();
 		const bottom = coordsOfEvent.bottom + 30;
@@ -57,9 +56,10 @@ const Header = ({ userLoading: loading }) => {
 			}
 		};
 	}, [isMobile, makeStickyHeader]);
+
 	return (
 		<div
-			className={`bg-white flex flex-col md:h-20 items-center justify-between md:flex-row md:space-y-0" px-8 space-y-4 md:sticky top-0 z-40`}
+			className={`bg-white flex flex-col md:h-20 items-center justify-between md:flex-row md:space-y-0" px-8 space-y-4 md:sticky top-0 z-20`}
 		>
 			<div className="logo_section pt-1.5 row-span-2">
 				<Link to={`/`}>

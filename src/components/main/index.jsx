@@ -1,6 +1,3 @@
-import React from "react";
-import DeleteModal from "./DeleteModal";
-import EditModal from "./EditModal";
 import DawahFeedContainer from "./feed/DawahFeedContainer";
 import LeftSidebar from "./LeftSidebar.jsx";
 import RightSidebar from "./RightSidebar";
@@ -13,8 +10,6 @@ const Main = ({ userLoading }) => {
 				<DawahFeedContainer loading={userLoading} />
 				<RightSidebar />
 			</div>
-			<EditModal />
-			<DeleteModal />
 		</>
 	);
 };

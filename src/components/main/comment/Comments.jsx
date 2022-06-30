@@ -1,9 +1,15 @@
 import _ from "lodash";
-import React from "react";
 import { useEffect } from "react/cjs/react.development";
+import tee from "../../../helpers/formatComments";
 import Comment from "./Comment";
 import CommentSkeleton from "./CommentSkeleton";
-const Comments = ({ comments, isLoading, error, setComments }) => {
+const Comments = ({
+	comments,
+	isLoading,
+	error,
+	setComments,
+	highlightedComment = null,
+}) => {
 	useEffect(() => {
 		function updateComment(e) {
 			const { data: comment, updatedText } = e.detail;
@@ -46,6 +52,17 @@ const Comments = ({ comments, isLoading, error, setComments }) => {
 			);
 		};
 	}, [setComments]);
+
+	useEffect(() => {
+		if (!isLoading && comments && highlightedComment) {
+			const newSortedComments = tee(
+				comments,
+				(item) => item.id === highlightedComment.comment_id
+			);
+			setComments(newSortedComments);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [highlightedComment, setComments, isLoading]);
 	return (
 		<div className="py-4 mx-4 space-y-3 md:mx-8 comments_section">
 			{error && <CommentSkeleton />}
@@ -57,7 +74,11 @@ const Comments = ({ comments, isLoading, error, setComments }) => {
 				<>
 					{comments.map((comment) => {
 						return (
-							<Comment singleComment={comment} key={comment.id} />
+							<Comment
+								highlightedComment={highlightedComment}
+								singleComment={comment}
+								key={comment.id}
+							/>
 						);
 					})}
 				</>

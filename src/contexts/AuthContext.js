@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 const AuthContext = React.createContext();
+
+// Dear Developer,
+// When I wrote this code only god and me knew this code
+// But now only god knows what I had written.
+
 export function useAuthContext() {
 	return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
 	const [user, setUser] = useState();
-	const [currentUser, setCurrentUser] = useState();
+	const [currentUser, setCurrentUser] = useState({});
 
 	useEffect(() => {
 		function fetchUser() {
@@ -15,36 +20,10 @@ export function AuthProvider({ children }) {
 					AUTH_TOKEN: localStorage.getItem("AUTH_TOKEN"),
 					AUTH_USERNAME: localStorage.getItem("AUTH_USERNAME"),
 				});
-				// await sunnah
-				// 	.get("user")
-				// 	.then((resp) => {
-				// 		console.log(resp);
-				// 	})
-				// 	.catch((err) => {
-				// 		console.log(err);
-				// 	});
 			}
 		}
 		fetchUser();
 	}, []);
-	// const [response, setResponse] = useState([]);
-	// async function signUp({ name, username, email, password }) {
-	// 	const formData = { name, username, email, password };
-
-	// 	await sunnah
-	// 		.post("register", formData)
-	// 		.then((response) => {
-	// 			// setResponse(response.data);
-	// 			response.data.hasOwnProperty("status") &&
-	// 				response.data.status === 200 &&
-	// 				setUser(response.data.data);
-	// 			return response.data;
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 			// setResponse(error);
-	// 		});
-	// }
 
 	const value = { user, setUser, currentUser, setCurrentUser };
 	return (

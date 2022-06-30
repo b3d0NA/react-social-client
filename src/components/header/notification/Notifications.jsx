@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import _ from "lodash";
+import { useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import sunnah from "../../../helpers/axios";
 import useInfiniteNotifications from "../../../hooks/useInfiniteNotifications";
@@ -37,11 +38,10 @@ const Notifications = ({ loading }) => {
 	}, [isNotificationOpen, setNotifications]);
 
 	useEffect(() => {
-		if (!loading) {
+		if (!loading && !_.isEmpty(currentUser)) {
 			window.Echo.private(
 				`App.Models.User.${currentUser.id}`
 			).notification((data) => {
-				console.log(data);
 				setNotificationCount((prevCount) => prevCount + 1);
 				setShowNotificationAlert(data);
 			});
@@ -105,15 +105,19 @@ const Notifications = ({ loading }) => {
 					!isNotificationOpen
 						? "-translate-y-2/4 md:translate-x-2/4 translate-x-0 opacity-0 scale-0"
 						: "-translate-x-1/2 md:translate-x-0"
-				} overflow-auto bg-white border border-green-200 shadow-xl notification_details rounded-xl w-80 h-fit max-h-[500px] scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 notifications left-20 top-14`}
+				} overflow-auto bg-white border border-green-200 shadow-xl notification_details rounded-xl w-80 h-fit max-h-[500px] scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 thin-scroll left-20 top-14`}
 			>
 				<ul>
-					{isLoading || error || notifications.length === 0 ? (
+					{isLoading || error ? (
 						<>
 							<NotifcationSkeleton />
 							<NotifcationSkeleton />
 							<NotifcationSkeleton />
 						</>
+					) : notifications.length === 0 ? (
+						<h2 className="p-2 font-semibold text-center text-gray-600 text-md">
+							Ups! No notifications yet.
+						</h2>
 					) : (
 						notifications.map((notification, i) => {
 							return (

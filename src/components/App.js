@@ -3,11 +3,16 @@ import { Route, Routes } from "react-router-dom";
 import { AppProvider } from "../contexts/AppContext";
 import { AuthProvider } from "../contexts/AuthContext";
 import sunnah from "../helpers/axios";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Post from "../pages/Post";
+import Profile from "../pages/Profile";
+import Register from "../pages/Register";
+import Settings from "../pages/Settings";
 import GuestRoute from "./GuestRoute";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Post from "./pages/Post";
-import Register from "./pages/Register";
+import ImageModal from "./main/feed/FeedImage/ImageModal";
+import SecuritySettings from "./main/settings/SecuritySettings";
+import SettingsProfile from "./main/settings/SettingsProfile";
 import PrivateRoute from "./PrivateRoute";
 function App() {
 	sunnah.get("../sanctum/csrf-cookie");
@@ -50,6 +55,33 @@ function App() {
 							}
 						/>
 						<Route path="/posts/:id" element={<Post />} />
+						<Route path="/muslims/:id" element={<Profile />} />
+
+						<Route
+							path="/settings"
+							element={
+								<PrivateRoute>
+									<Settings />
+								</PrivateRoute>
+							}
+						>
+							<Route
+								path="profile"
+								element={
+									<PrivateRoute>
+										<SettingsProfile />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="security"
+								element={
+									<PrivateRoute>
+										<SecuritySettings />
+									</PrivateRoute>
+								}
+							/>
+						</Route>
 						<Route
 							path="/register"
 							element={
@@ -66,7 +98,16 @@ function App() {
 								</GuestRoute>
 							}
 						/>
+						<Route
+							path="*"
+							element={
+								<main style={{ padding: "1rem" }}>
+									<p>There's nothing here!</p>
+								</main>
+							}
+						/>
 					</Routes>
+					<ImageModal />
 				</div>
 			</AuthProvider>
 		</AppProvider>

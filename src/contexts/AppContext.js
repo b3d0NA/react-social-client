@@ -16,6 +16,11 @@ export function AppProvider({ children }) {
 		bottom: 0,
 	});
 
+	const [imageModal, setImageModal] = useState({
+		images: [],
+		startsAt: 0,
+	});
+
 	const isMobile = useMediaQuery("(max-width: 768px)");
 	const value = {
 		isLeftSidebarOpen,
@@ -23,6 +28,8 @@ export function AppProvider({ children }) {
 		isRightSidebarOpen,
 		setIsRightSidebarOpen,
 		isMobile,
+		imageModal,
+		setImageModal,
 	};
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

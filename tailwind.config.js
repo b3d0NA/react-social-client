@@ -4,8 +4,9 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				sans: ["Poppins"],
+				gruffly: ["Gruffly", "brush"],
 			},
 		},
 	},
-	plugins: [],
+	plugins: [require("tailwind-scrollbar")],
 };
