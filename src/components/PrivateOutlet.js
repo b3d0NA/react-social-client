@@ -3,7 +3,6 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 const PrivateOutlet = () => {
 	const { user } = useAuthContext();
-	console.log(user);
 	if (user === undefined) {
 		return "";
 	} else if (user !== undefined && user) {

@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
 	useEffect(() => {
 		function fetchUser() {
 			if (localStorage.hasOwnProperty("AUTH_TOKEN")) {
-				console.log("I am rending");
 				setUser({
 					AUTH_TOKEN: localStorage.getItem("AUTH_TOKEN"),
 					AUTH_USERNAME: localStorage.getItem("AUTH_USERNAME"),
