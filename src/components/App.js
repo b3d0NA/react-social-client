@@ -9,11 +9,11 @@ import Post from "../pages/Post";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 import Settings from "../pages/Settings";
-import GuestRoute from "./GuestRoute";
+import GuestOutlet from "./GuestOutlet";
 import ImageModal from "./main/feed/FeedImage/ImageModal";
 import SecuritySettings from "./main/settings/SecuritySettings";
 import SettingsProfile from "./main/settings/SettingsProfile";
-import PrivateRoute from "./PrivateRoute";
+import PrivateOutlet from "./PrivateOutlet";
 function App() {
 	sunnah.get("../sanctum/csrf-cookie");
 	window.Pusher = require("pusher-js");
@@ -46,58 +46,27 @@ function App() {
 			<AuthProvider>
 				<div className="bg-gray-50">
 					<Routes>
-						<Route
-							path="/"
-							element={
-								<PrivateRoute>
-									<Home />
-								</PrivateRoute>
-							}
-						/>
 						<Route path="/posts/:id" element={<Post />} />
 						<Route path="/muslims/:id" element={<Profile />} />
 
-						<Route
-							path="/settings"
-							element={
-								<PrivateRoute>
-									<Settings />
-								</PrivateRoute>
-							}
-						>
-							<Route
-								path="profile"
-								element={
-									<PrivateRoute>
-										<SettingsProfile />
-									</PrivateRoute>
-								}
-							/>
-							<Route
-								path="security"
-								element={
-									<PrivateRoute>
-										<SecuritySettings />
-									</PrivateRoute>
-								}
-							/>
+						<Route path="/*" element={<GuestOutlet />}>
+							<Route path="register" element={<Register />} />
+							<Route path="login" element={<Login />} />
 						</Route>
-						<Route
-							path="/register"
-							element={
-								<GuestRoute>
-									<Register />
-								</GuestRoute>
-							}
-						/>
-						<Route
-							path="/login"
-							element={
-								<GuestRoute>
-									<Login />
-								</GuestRoute>
-							}
-						/>
+
+						<Route path="/*" element={<PrivateOutlet />}>
+							<Route path="" element={<Home />} />
+							<Route path="settings" element={<Settings />}>
+								<Route
+									path="profile"
+									element={<SettingsProfile />}
+								/>
+								<Route
+									path="security"
+									element={<SecuritySettings />}
+								/>
+							</Route>
+						</Route>
 						<Route
 							path="*"
 							element={
